@@ -1,3 +1,11 @@
+<?php
+spl_autoload_register(function($nombre_clase) {
+    include $nombre_clase . '.php';
+});
+if (isset($_POST['submit'])) {
+    $bd = new BD($host, $user, $pass, $bd);
+}
+?>
 <!DOCTYPE html>
 <html>
     <head>
