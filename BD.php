@@ -4,10 +4,16 @@ class BD {
 
     private $conexion;
     private $info;
-    private $host;
     private $user;
     private $pass;
-    private $bd;
+    private $dns;
+
+    /**
+     * @return string que sera el codigo de info que se generara si no se puede conectar a la base de datos
+     */
+    function getInfo() {
+        return $this->info;
+    }
 
     /**
      * RECOGE LAS VARIABLES NECESARIAS PARA CREAR LA CONEXION A LA BASE DE DATOS
@@ -17,23 +23,35 @@ class BD {
      * @param type $bd
      * Por último se llama a otra función que nos conectara con la base de datos
      */
-    public function __construct($host = "localhost", $user = "root", $pass = "root", $bd = "dwes") {
-        $this->host = $host;
+    public function __construct($host = "localhost", $user = "root", $pass = "root", $bd = null) {
         $this->user = $user;
         $this->pass = $pass;
-        $this->bd = $bd;
+        if ($bd === null) {
+            $this->dns = "mysql:host=$host";
+        } else {
+            $this->dns = "mysql:host=$host;dbname=$bd";
+        }
         $this->conexion = $this->conectar();
     }
 
     /**
      * @return \mysqli devuelve la conexion que es de tipo mysqli
      */
-    private function conectar(): mysqli {
-        $conexion = new mysqli($this->host, $this->user, $this->pass, $this->bd);
-        if ($conexion->connect_errno) {
-            $this->info = "Error conectando...<strong>" . $conexion->connect_error . "</strong>";
+    private function conectar() {
+        try {
+            $conexion = new PDO($this->dns, $this->user, $this->pass);
+        } catch (Exception $e) {
+            $this->info = "Error conectando: " . $e->getMessage() . "<br/><strong>Prueba con el host 172.17.0.2 el usuario root y la contraseña root</strong>";
         }
         return $conexion;
+    }
+
+    /**
+     * @param string $consulta
+     * @return type
+     */
+    public function consulta($consulta) {
+        return $this->conexion->query($consulta);
     }
 
     /*

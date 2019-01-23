@@ -9,11 +9,19 @@ if (isset($_POST['submit'])) {
     $host = $_POST['host'];
     $user = $_POST['usuario'];
     $pass = $_POST['pass'];
-    $bd = new BD($host, $user, $pass);
+    $conexion = new BD($host, $user, $pass);
+    $error = $conexion->getInfo();
+    if ($error == "") {
+        $consulta = "SHOW DATABASES";
+        $databases = $conexion->consulta($consulta);
+        while (($NomDatabase = $databases->fetchColumn(0)) !== false) {
+            $radios = "<input type='radio' name='radio' value=$NomDatabase";
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
-<div id = error>Error Conectando :SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)<br />Prueba con <strong>172.17.0.2</strong>, user <strong>root</strong> pass <strong>root</strong></div>
+<div id = error><?php echo $error; ?></div>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -31,7 +39,7 @@ if (isset($_POST['submit'])) {
                 <input type="text" name="usuario" value="root">
                 <label>Password</label>
                 <input type="text" name="pass" value="root">
-                <input type="submit" value="Conectar" name="conectar">
+                <input type="submit" value="Conectar" name="submit">
             </form>
 
         </fieldset>
