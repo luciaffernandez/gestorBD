@@ -19,7 +19,7 @@ if (isset($_POST['submit'])) {
     $tablas = $conexion->consulta($consulta);
     
     while (($nomTablas = $tablas->fetchColumn(0)) !== false) {
-            $inputs .= "<input type='submit' name='submits' value='$nomTablas'>";
+            $inputs .= "<input type='submit' name='submit' value='$nomTablas'>";
     }
     
 }
@@ -44,7 +44,6 @@ if (isset($_POST['submit'])) {
             <legend>Gestión de las Bases de Datos <span class="resaltar"></span></legend>
             <form action='gestorTablas.php' method='post'>
                 <?php echo $inputs; ?>
-                <input type="submit" value="Seleccionar" name="submit"/>
             </form>
         </fieldset>
 

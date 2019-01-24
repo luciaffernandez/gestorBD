@@ -77,7 +77,7 @@ class BD {
             $this->conexion = $this->conexion();
         }
         $resultado = $this->conexion->query($consulta);
-        while ($fila = $resultado->fetch_row()) {//mientras fila sea distinto de null cogemos el siguiente valor
+        while ($fila = $resultado->fetch_row()) { //mientras fila sea distinto de null cogemos el siguiente valor
             $filas[] = $fila;
         }
         return $filas;

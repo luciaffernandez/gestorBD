@@ -1,18 +1,30 @@
 <?php
+spl_autoload_register(function($nombre_clase) {
+    include $nombre_clase . '.php';
+});
+
+session_start();
+
+if(isset($_POST['submit'])){
+    $conexion = $_SESSION['conexion'];
+    $nomTabla = $_POST['submit'];
+    $consulta = "Select * from $nomTabla";
+    $datos = $conexion->select($consulta);
+    
+    
+}
 
 ?>
 <!doctype html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>Ejemplo de estilos CSS en un archivo externo</title>
+        <title>Gestor de las tablas</title>
         <link rel="stylesheet" type="text/css" href="estilo.css" media="screen" />
-        <meta charset="ISO-8859-1"
-              <title></title>
     </head>
     <body>
         <fieldset style="width:70%">
-            <legend>Admnistración de la tabla  CHARACTER_SETS</legend>
+            <legend>Admnistración de la tabla  <?php echo $nomTabla;?></legend>
             <table id="tabla" class="display" border="1">
                 <thead>
                     <tr>
@@ -22,7 +34,6 @@
                 <tbody>
                     <tr>
                 <form action='gestionarTabla.php'  method='post'>
-
                     <input type =hidden value =CHARACTER_SETS  name = 'tabla'> 
                     <td>big5</td>
                     <input type =hidden name = campos[CHARACTER_SET_NAME] value ='big5' >
