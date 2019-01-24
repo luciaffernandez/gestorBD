@@ -8,12 +8,7 @@ class BD {
     private $pass;
     private $dns;
 
-    /**
-     * @return string que sera el codigo de info que se generara si no se puede conectar a la base de datos
-     */
-    function getInfo() {
-        return $this->info;
-    }
+    
 
     /**
      * RECOGE LAS VARIABLES NECESARIAS PARA CREAR LA CONEXION A LA BASE DE DATOS
@@ -54,6 +49,23 @@ class BD {
         return $this->conexion->query($consulta);
     }
 
+    /**
+     * @return string que sera el codigo de info que se generara si no se puede conectar a la base de datos
+     */
+    function getInfo() {
+        return $this->info;
+    }
+    
+    //cierra la conexion a la base de datos
+    public function cerrar() {
+        $this->conexion = null;
+    }
+    
+    
+    //a partir de aquí revisar funciones
+    
+    
+    
     /*
      * @param string $consulta que tendrá una sentencia mysql
      * @return type array que recogera todas las filas que hemos seleccionado de la base de datos
@@ -69,11 +81,6 @@ class BD {
             $filas[] = $fila;
         }
         return $filas;
-    }
-
-    //cierra la conexion a la base de datos
-    public function cerrar() {
-        $this->conexion->close();
     }
 
     /**
