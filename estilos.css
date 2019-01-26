@@ -1,0 +1,78 @@
+fieldset{
+    border: 0.25em solid;
+    align : center;
+    position: absolute;
+    left: 20%;
+    top: 45%;
+    margin-left: -115px;
+    margin-top: -80px;
+    padding:10px;
+    background-color: #eee;
+}
+#error{
+    border: 0.25em solid;
+    background:#008000;
+    color:#FFFFFF;
+    font-weight:bold;
+    padding:4px;
+    text-align:center;
+    font-size: 1.2em;
+}
+#opcion{
+    border: 0.25em solid;
+    background:#008000;
+    color:#faa732;
+    font-weight:bold;
+    padding:4px;
+    text-align:center;
+    font-size: 1.4em;
+    
+}
+
+fieldset#sup{
+    border: 0.25em solid;
+    position: absolute;
+    left: 20%;
+    top: 25%;
+    padding:10px;
+    background-color: #eee;
+}
+.resaltar { font-weight:bold ; color:red ;font-style:italic }
+
+legend{
+    font-size: 2em;
+    color: green;
+    font-weight: bold;
+}
+input[type=submit] {
+    padding:5px 15px 10px 10px;
+    background:#ccc;
+    border:2;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    margin: 1em;
+    font-size: 1em;
+}
+input[type=submit]#tabla {
+    padding: 0px 0px 0px 0px;
+    background: azure;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0px 2px 0px 2px;
+    font-size: 0.8em;
+    color: red;
+}
+
+
+
+label{
+    font-weight: bold;
+    font-size : 1.5em;
+    margin: 0.65em;
+
+}
+input:text{
+    padding: 1em 1em 1em 1em;
+    margin: 1em 1em 1em 1em;
+}
