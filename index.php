@@ -33,7 +33,7 @@ if (isset($_POST['submit'])) {
     <body>
         <div id = error><?php echo $error; ?></div>
         <fieldset style="width:70%; margin-top: -300px;">
-            <legend>Datos de conexión</legend>
+            <legend>Datos de conexiÃ³n</legend>
             <form action="." method="POST">
                 <label>Host</label>
                 <input type="text" name="host" value="172.17.0.2">
