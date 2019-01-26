@@ -61,7 +61,7 @@ function generoTabla($titulos, $filas, $nomTabla): string {
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Gestor de las tablas</title>
-        <link rel="stylesheet" type="text/css" href="estilo.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="estilos.css" media="screen" />
     </head>
     <body>
         <fieldset style="width:70%">
