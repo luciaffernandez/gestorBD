@@ -6,22 +6,21 @@ spl_autoload_register(function($nombre_clase) {
 session_start();
 
 if (isset($_POST['submit'])) {
-    
+
     $host = $_SESSION['conexion'][0];
     $user = $_SESSION['conexion'][1];
     $pass = $_SESSION['conexion'][2];
     $bd = $_POST['radio'];
     $conexion = new BD($host, $user, $pass, $bd);
-    
+
     $_SESSION['conexion'][3] = $bd;
-    
+
     $consulta = "SHOW TABLES";
     $tablas = $conexion->consulta($consulta);
-    
+
     while (($nomTablas = $tablas->fetchColumn(0)) !== false) {
-            $inputs .= "<input type='submit' name='submit' value='$nomTablas'>";
+        $inputs .= "<input type='submit' name='submit' value='$nomTablas'>";
     }
-    
 }
 ?>
 <!DOCTYPE html>
