@@ -17,14 +17,17 @@ if (isset($_POST['submit'])) {
 
     $titulos = $conexion->nomCol($nomTabla);
     $filas = $conexion->seleccion($consulta);
-    $tabla = generoTabla($titulos, $datos);
+    $tabla = generoTabla($titulos, $filas, $nomTabla);
     switch ($submit) {
-        case "Delete":
-            break;
-        case "Modificar":
-            header("Location: editar.php");
+        case "Borrar":
             break;
         case "Editar":
+            header("Location: editar.php");
+            break;
+        case "Añadir":
+            header("Location: editar.php");
+            break;
+        case "Cerrar":
             header("Location: editar.php");
             break;
     }
@@ -36,10 +39,11 @@ function generoTabla($titulos, $filas, $nomTabla): string {
     foreach ($titulos as $titulo) {
         $tabla .= "<th>$titulo</th>";
     }
-    $tabla .= "</tr>";
+    $tabla .= "<th colspan='2'>Acciones</th>"
+            . "</tr>";
     foreach ($filas as $fila) {
         $tabla .= "<tr>"
-                . "<form action='gestionarTabla.php'  method='post'>"
+                . "<form action='gestorTablas.php'  method='post'>"
                 . "<input type='hidden' value='$nomTabla' name='tabla'>";
         foreach ($fila as $i => $dato) {
             $tabla .= "<td>$dato</td>"
@@ -47,7 +51,9 @@ function generoTabla($titulos, $filas, $nomTabla): string {
         }
         $tabla .= "<td>"
                 . "<input type = 'submit' value = 'Editar' name = 'submit'>"
-                . "<input type = 'submit' value = 'Delete' name = 'submit'>"
+                . "</td>"
+                . "<td>"
+                . "<input type = 'submit' value = 'Borrar' name = 'submit'>"
                 . "</td>"
                 . "</form>"
                 . "</tr>";
@@ -67,9 +73,9 @@ function generoTabla($titulos, $filas, $nomTabla): string {
         <fieldset style="width:70%">
             <legend>Admnistración de la tabla  <?php echo $nomTabla; ?></legend>
             <?php echo $tabla; ?>
-            <form action='gestionarTabla.php' method='post'>
-                <input type="submit" value="Add" name="gestionar">
-                <input type="submit" value="Close" name="gestionar">
+            <form action='gestorTablas.php' method='post'>
+                <input type="submit" value="Añadir" name="submit">
+                <input type="submit" value="Cerrar" name="submit">
                 <input type="hidden" value='<?php echo $nomTabla;?>' name="tabla">
             </form>
         </fieldset>
