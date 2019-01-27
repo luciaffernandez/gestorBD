@@ -8,7 +8,6 @@ class BD {
     private $pass;
     private $dns;
 
-   
     /**
      * RECOGE LAS VARIABLES NECESARIAS PARA CREAR LA CONEXION A LA BASE DE DATOS
      * @param type $host
@@ -37,6 +36,7 @@ class BD {
         } catch (Exception $e) {
             $this->info = "Error conectando: " . $e->getMessage() . "<br/><strong>Prueba con el host 172.17.0.2 el usuario root y la contraseña root</strong>";
         }
+        $conexion->query("SET NAMES 'utf8'");
         return $conexion;
     }
 
@@ -54,26 +54,26 @@ class BD {
     function getInfo() {
         return $this->info;
     }
-    
+
     //cierra la conexion a la base de datos
     public function cerrar() {
         $this->conexion = null;
     }
-    
-    
+
     /*
      * @param string $consulta que tendrá una sentencia mysql
      * @return type array que recogera todas las filas que hemos seleccionado de la base de datos
      */
+
     public function seleccion(string $consulta): array {
         $campos = [];
         if ($this->conexion == null) {
             $this->conexion = $this->conexion();
         }
         $resultado = $this->conexion->query($consulta);
-        
+
         $camposObj = $resultado->fetch(PDO::FETCH_ASSOC);
-        while($filas = $resultado->fetch(PDO::FETCH_ASSOC)){
+        while ($filas = $resultado->fetch(PDO::FETCH_ASSOC)) {
             $campos[] = $filas;
         }
         return $campos;

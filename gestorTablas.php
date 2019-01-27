@@ -5,35 +5,37 @@ spl_autoload_register(function($nombre_clase) {
 
 session_start();
 
-if (isset($_POST['submit'])) {
-    $host = $_SESSION['conexion'][0];
-    $user = $_SESSION['conexion'][1];
-    $pass = $_SESSION['conexion'][2];
-    $bd = $_SESSION['conexion'][3];
-    $conexion = new BD($host, $user, $pass, $bd);
+$host = $_SESSION['conexion'][0];
+$user = $_SESSION['conexion'][1];
+$pass = $_SESSION['conexion'][2];
+$bd = $_SESSION['conexion'][3];
+$conexion = new BD($host, $user, $pass, $bd);
 
-    $nomTabla = $_POST['submit'];
-    $consulta = "Select * from $nomTabla";
+$nomTabla = $_POST['submit'];
 
-    $titulos = $conexion->nomCol($nomTabla);
-    $filas = $conexion->seleccion($consulta);
-    $tabla = generoTabla($titulos, $filas, $nomTabla);
+$submit = $_POST['accion'];
+if (isset($submit)) {
     switch ($submit) {
         case "Borrar":
+            $nomTabla = $_POST['tabla'];
             break;
         case "Editar":
-            header("Location: editar.php");
+            header("Location:formulario.php");
             break;
         case "Añadir":
-            header("Location: editar.php");
+            header("Location:formulario.php");
             break;
         case "Cerrar":
-            header("Location: editar.php");
+            header("Location:tablas.php");
             break;
     }
 }
 
-function generoTabla($titulos, $filas, $nomTabla): string {
+function generoTabla($conexion, $nomTabla): string {
+
+    $consulta = "Select * from $nomTabla";
+    $titulos = $conexion->nomCol($nomTabla);
+    $filas = $conexion->seleccion($consulta);
     $tabla = "<table id='tabla' class='display' border='1'>"
             . "<tr>";
     foreach ($titulos as $titulo) {
@@ -50,10 +52,10 @@ function generoTabla($titulos, $filas, $nomTabla): string {
                     . "<input type='hidden' name='campos[$titulos[$i]]' value='$dato'>";
         }
         $tabla .= "<td>"
-                . "<input type = 'submit' value = 'Editar' name = 'submit'>"
+                . "<input type = 'submit' value = 'Editar' name = 'accion'>"
                 . "</td>"
                 . "<td>"
-                . "<input type = 'submit' value = 'Borrar' name = 'submit'>"
+                . "<input type = 'submit' value = 'Borrar' name = 'accion'>"
                 . "</td>"
                 . "</form>"
                 . "</tr>";
@@ -72,11 +74,11 @@ function generoTabla($titulos, $filas, $nomTabla): string {
     <body>
         <fieldset style="width:70%">
             <legend>Admnistración de la tabla  <?php echo $nomTabla; ?></legend>
-            <?php echo $tabla; ?>
+            <?php echo generoTabla($conexion, $nomTabla); ?>
             <form action='gestorTablas.php' method='post'>
-                <input type="submit" value="Añadir" name="submit">
-                <input type="submit" value="Cerrar" name="submit">
-                <input type="hidden" value='<?php echo $nomTabla;?>' name="tabla">
+                <input type="submit" value="Añadir" name="accion">
+                <input type="submit" value="Cerrar" name="accion">
+                <input type="hidden" value='<?php echo $nomTabla; ?>' name="tabla">
             </form>
         </fieldset>
     </body>
