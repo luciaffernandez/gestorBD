@@ -45,11 +45,11 @@ function generoTabla($conexion, $nomTabla): string {
             . "</tr>";
     foreach ($filas as $fila) {
         $tabla .= "<tr>"
-                . "<form action='gestorTablas.php'  method='post'>"
+                . "<form action='formulario.php'  method='post'>"
                 . "<input type='hidden' value='$nomTabla' name='tabla'>";
-        foreach ($fila as $i => $dato) {
+        foreach ($fila as $titulo => $dato) {
             $tabla .= "<td>$dato</td>"
-                    . "<input type='hidden' name='campos[$titulos[$i]]' value='$dato'>";
+                    . "<input type='hidden' name='campos[$titulo]' value='$dato'>";
         }
         $tabla .= "<td>"
                 . "<input type = 'submit' value = 'Editar' name = 'accion'>"

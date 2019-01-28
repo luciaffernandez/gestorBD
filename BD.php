@@ -91,6 +91,19 @@ class BD {
         return $campos;
     }
     
+    public function ejecutar($sentencia){
+        $this->info = NULL;
+        if($this->conexion == NULL){
+            $this->__construct($conexion);
+        }
+        try{
+            $stmt = $this->conexion->prepare($sentencia);
+            $this->conexion->execute($stmt);
+        } catch (Exception $ex) {
+            $this->msj = "Error " . $e->getMessage() . "<br/><hr /> Sentencia erronea.";
+        }
+    }
+    
     /** Realiza la función de borrar del gestor de tabla
      * @param type $tabla
      * @param type $datos
