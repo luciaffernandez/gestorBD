@@ -25,16 +25,13 @@ if (isset($_POST['submit'])) {
 ?>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html;
-              charset = UTF-8" />
         <title>Ejemplo de estilos CSS en un archivo externo</title>
         <link rel="stylesheet" type="text/css" href="estilo.css" media="screen" />
         <meta charset="UTF-8">
-        <title></title>
     </head>
     <body>
         <fieldset>
-            <legend>Editanto Registro de la tabla CHARACTER_SETS</legend>
+            <legend>Editanto Registro de la tabla <?php echo $nomTabla; ?> </legend>
             <form action="." method="post">
                 <?php echo $formulario; ?>
                 <input type="submit" value="Guardar" name='enviar'>

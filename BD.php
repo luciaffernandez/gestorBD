@@ -8,13 +8,11 @@ class BD {
     private $pass;
     private $dns;
 
-    /**
-     * RECOGE LAS VARIABLES NECESARIAS PARA CREAR LA CONEXION A LA BASE DE DATOS
+    /** FUNCION QUE RECOGE LOS ATRIBUTOS NECESARIOS PARA CREAR LA CONEXION A LA BASE DE DATOS
      * @param type $host
      * @param type $user
      * @param type $pass
      * @param type $bd
-     * Por último se llama a otra función que nos conectara con la base de datos
      */
     public function __construct($host = "localhost", $user = "root", $pass = "root", $bd = null) {
         $this->user = $user;
@@ -40,9 +38,8 @@ class BD {
         return $conexion;
     }
 
-    /**
+    /** Devolvera un array o un string depende de la consulta que se haga
      * @param string $consulta
-     * @return type
      */
     public function consulta($consulta) {
         return $this->conexion->query($consulta);
@@ -64,15 +61,12 @@ class BD {
      * @param string $consulta que tendrá una sentencia mysql
      * @return type array que recogera todas las filas que hemos seleccionado de la base de datos
      */
-
     public function seleccion(string $consulta): array {
         $campos = [];
         if ($this->conexion == null) {
             $this->conexion = $this->conexion();
         }
         $resultado = $this->conexion->query($consulta);
-
-        $camposObj = $resultado->fetch(PDO::FETCH_ASSOC);
         while ($filas = $resultado->fetch(PDO::FETCH_ASSOC)) {
             $campos[] = $filas;
         }
@@ -80,8 +74,8 @@ class BD {
     }
 
     /**
-     * @param string $tabla es el nombre de la tabla cuyos nombres de los campos que quiero
-     * @return array indexado con los nombres de los campos
+     * @param string $nomTabla es el nombre de la tabla cuyos nombres de los campos que quiero
+     * @return array con los nombres de las columnas de la tabla
      */
     public function nomCol($nomTabla): array {
         $campos = [];
@@ -96,5 +90,34 @@ class BD {
         }
         return $campos;
     }
-
+    
+    /** Realiza la función de borrar del gestor de tabla
+     * @param type $tabla
+     * @param type $datos
+     * @return array
+     */
+    public function delete($tabla, $datos): array {
+        if ($this->con == null) {
+            $this->con = $this->conexion();
+        }
+        $sentencia = "DELETE FROM $tabla WHERE ";
+        foreach ($datos as $campo => $dato) {
+            $columna = substr($campo,1);
+            $sentencia .= "$columna=$campo AND ";
+        }
+        
+        $sql = substr($sentencia, 0, strlen($sentencia) - 4);
+        return $this->prepareStmt($sql, $datos); 
+    }
+    
+    /**Realiza la sentencia preparada que le pases
+     * @param string $sql
+     * @param array $datos
+     * @return bool
+     */
+     private function prepareStmt(string $sql, array $datos): bool {
+        $stmt = $this->conexion->prepare($sql);
+        $resultado = $stmt->execute($datos); 
+        return $resultado;
+     }
 }
