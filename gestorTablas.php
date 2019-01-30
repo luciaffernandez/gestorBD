@@ -11,8 +11,8 @@ $pass = $_SESSION['conexion'][2];
 $bd = $_SESSION['conexion'][3];
 $conexion = new BD($host, $user, $pass, $bd);
 
-if (isset($_POST['submit']))
-    $nomTabla = $_POST['submit'];
+if (isset($_POST['tabla']))
+    $nomTabla = $_POST['tabla'];
 else
     $nomTabla = $_GET['nomTabla'];
 
@@ -21,7 +21,9 @@ $submit = $_POST['accion'];
 if (isset($submit)) {
     switch ($submit) {
         case "Borrar":
+            $campos = $_POST['campos'];
             $nomTabla = $_POST['tabla'];
+            borrar($conexion, $nomTabla, $campos);
             break;
         case "Editar":
             $campos = serialize($_POST['campos']);
@@ -35,6 +37,18 @@ if (isset($submit)) {
             header("Location:tablas.php");
             break;
     }
+}
+
+function borrar($conexion, $nomTabla, $campos) {
+    $sentencia = "DELETE FROM $nomTabla WHERE ";
+    $contador = 0;
+    foreach ($campos as $titulo => $campo) {
+        if ($contador == 0)
+            $sentencia .= "$titulo = '" . $campo . "'";
+        $contador++;
+    }
+    echo $sentencia;
+    $conexion->ejecutar($sentencia);
 }
 
 function generoTabla($conexion, $nomTabla): string {

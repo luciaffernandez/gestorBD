@@ -18,8 +18,8 @@ if (isset($_POST['submit'])) {
     $consulta = "SHOW TABLES";
     $tablas = $conexion->consulta($consulta);
 
-    while (($nomTablas = $tablas->fetchColumn(0)) !== false) {
-        $inputs .= "<input type='submit' name='submit' value='$nomTablas'>";
+    while (($nomTabla = $tablas->fetchColumn(0)) !== false) {
+        $inputs .= "<input type='submit' name='tabla' value='$nomTabla'>";
     }
 }
 ?>
