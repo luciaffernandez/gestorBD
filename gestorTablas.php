@@ -11,7 +11,11 @@ $pass = $_SESSION['conexion'][2];
 $bd = $_SESSION['conexion'][3];
 $conexion = new BD($host, $user, $pass, $bd);
 
-$nomTabla = $_POST['submit'];
+if (isset($_POST['submit']))
+    $nomTabla = $_POST['submit'];
+else
+    $nomTabla = $_GET['nomTabla'];
+
 
 $submit = $_POST['accion'];
 if (isset($submit)) {
@@ -20,7 +24,9 @@ if (isset($submit)) {
             $nomTabla = $_POST['tabla'];
             break;
         case "Editar":
-            header("Location:formulario.php");
+            $campos = serialize($_POST['campos']);
+            $nomTabla = $_POST['tabla'];
+            header("Location:formulario.php?campos=$campos&tabla=$nomTabla");
             break;
         case "Añadir":
             header("Location:formulario.php");
@@ -45,7 +51,7 @@ function generoTabla($conexion, $nomTabla): string {
             . "</tr>";
     foreach ($filas as $fila) {
         $tabla .= "<tr>"
-                . "<form action='formulario.php'  method='post'>"
+                . "<form action='gestorTablas.php'  method='post'>"
                 . "<input type='hidden' value='$nomTabla' name='tabla'>";
         foreach ($fila as $titulo => $dato) {
             $tabla .= "<td>$dato</td>"

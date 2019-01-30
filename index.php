@@ -36,7 +36,7 @@ if (isset($_POST['submit'])) {
             <legend>Datos de conexiÃ³n</legend>
             <form action="." method="POST">
                 <label>Host</label>
-                <input type="text" name="host" value="172.17.0.2">
+                <input type="text" name="host" value="localhost">
                 <label>Usuario</label>
                 <input type="text" name="usuario" value="root">
                 <label>Password</label>
@@ -44,14 +44,14 @@ if (isset($_POST['submit'])) {
                 <input type="submit" value="Conectar" name="submit">
             </form>
         </fieldset>
-        <?php if($radios):?>
-        <fieldset style="width:70%">
-            <legend>Selecciona la base de datos</legend>
-            <form action="tablas.php" method="POST">
-                <?php echo $radios; ?>
-                <input type="submit" value="Gestionar" name="submit"/>
-            </form>
-        </fieldset>
-        <?php endif;?>
+        <?php if ($radios): ?>
+            <fieldset style="width:70%">
+                <legend>Selecciona la base de datos</legend>
+                <form action="tablas.php" method="POST">
+                    <?php echo $radios; ?>
+                    <input type="submit" value="Gestionar" name="submit"/>
+                </form>
+            </fieldset>
+        <?php endif; ?>
     </body>
 </html>

@@ -61,6 +61,7 @@ class BD {
      * @param string $consulta que tendrá una sentencia mysql
      * @return type array que recogera todas las filas que hemos seleccionado de la base de datos
      */
+
     public function seleccion(string $consulta): array {
         $campos = [];
         if ($this->conexion == null) {
@@ -90,20 +91,20 @@ class BD {
         }
         return $campos;
     }
-    
-    public function ejecutar($sentencia){
+
+    public function ejecutar($sentencia) {
         $this->info = NULL;
-        if($this->conexion == NULL){
+        if ($this->conexion == NULL) {
             $this->__construct($conexion);
         }
-        try{
+        try {
             $stmt = $this->conexion->prepare($sentencia);
-            $this->conexion->execute($stmt);
+            $stmt->execute();
         } catch (Exception $ex) {
-            $this->msj = "Error " . $e->getMessage() . "<br/><hr /> Sentencia erronea.";
+            $this->msj = "Error " . $ex->getMessage() . "<br/><hr /> Sentencia erronea.";
         }
     }
-    
+
     /** Realiza la función de borrar del gestor de tabla
      * @param type $tabla
      * @param type $datos
@@ -115,22 +116,24 @@ class BD {
         }
         $sentencia = "DELETE FROM $tabla WHERE ";
         foreach ($datos as $campo => $dato) {
-            $columna = substr($campo,1);
+            $columna = substr($campo, 1);
             $sentencia .= "$columna=$campo AND ";
         }
-        
+
         $sql = substr($sentencia, 0, strlen($sentencia) - 4);
-        return $this->prepareStmt($sql, $datos); 
+        return $this->prepareStmt($sql, $datos);
     }
-    
-    /**Realiza la sentencia preparada que le pases
+
+    /*     * Realiza la sentencia preparada que le pases
      * @param string $sql
      * @param array $datos
      * @return bool
      */
-     private function prepareStmt(string $sql, array $datos): bool {
+
+    private function prepareStmt(string $sql, array $datos): bool {
         $stmt = $this->conexion->prepare($sql);
-        $resultado = $stmt->execute($datos); 
+        $resultado = $stmt->execute($datos);
         return $resultado;
-     }
+    }
+
 }
