@@ -6,6 +6,10 @@ spl_autoload_register(function($nombre_clase) {
 $error = "";
 session_start();
 
+if (isset($_SESSION['conexion']))
+    $conexion = $_SESSION['conexion'];
+
+
 if (isset($_POST['submit'])) {
     $host = $_POST['host'];
     $user = $_POST['usuario'];
@@ -34,7 +38,7 @@ if (isset($_POST['submit'])) {
         <div id = error><?php echo $error; ?></div>
         <fieldset style="width:70%; margin-top: -300px;">
             <legend>Datos de conexiÃ³n</legend>
-            <form action="." method="POST">
+            <form action="index.php" method="POST">
                 <label>Host</label>
                 <input type="text" name="host" value="localhost">
                 <label>Usuario</label>

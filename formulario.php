@@ -35,12 +35,11 @@ function generaSentenciaUpdate($nomTabla, $campos, $valorAnt, $valorNuevo) {
     $indice = 0;
     foreach ($campos as $titulo => $campo) {
         $set .= "$titulo = '" . $valorNuevo[$indice] . "', ";
-        if ($indice == 0) {
-            $where = "$titulo = '" . $valorAnt[$indice] . "'";
-        }
+        $where .= "$titulo = '" . $valorAnt[$indice] . "' and ";
         $indice++;
     }
     $set = substr($set, 0, strlen($set) - 2);
+    $where = substr($where, 0, strlen($where) - 4);
     $sentencia = "UPDATE $nomTabla SET $set WHERE $where";
     return $sentencia;
 }

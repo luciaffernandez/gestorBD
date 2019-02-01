@@ -41,13 +41,10 @@ if (isset($submit)) {
 
 function borrar($conexion, $nomTabla, $campos) {
     $sentencia = "DELETE FROM $nomTabla WHERE ";
-    $contador = 0;
     foreach ($campos as $titulo => $campo) {
-        if ($contador == 0)
-            $sentencia .= "$titulo = '" . $campo . "'";
-        $contador++;
+        $sentencia .= "$titulo = '" . $campo . "' and ";
     }
-    echo $sentencia;
+    $sentencia = substr($sentencia, 0, strlen($sentencia) - 4);
     $conexion->ejecutar($sentencia);
 }
 

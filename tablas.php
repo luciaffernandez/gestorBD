@@ -5,22 +5,22 @@ spl_autoload_register(function($nombre_clase) {
 
 session_start();
 
-if (isset($_POST['submit'])) {
-
-    $host = $_SESSION['conexion'][0];
-    $user = $_SESSION['conexion'][1];
-    $pass = $_SESSION['conexion'][2];
+if (isset($_POST['radio'])) {
     $bd = $_POST['radio'];
-    $conexion = new BD($host, $user, $pass, $bd);
-
     $_SESSION['conexion'][3] = $bd;
+} else {
+    $bd = $_SESSION['conexion'][3];
+}
 
-    $consulta = "SHOW TABLES";
-    $tablas = $conexion->consulta($consulta);
+$host = $_SESSION['conexion'][0];
+$user = $_SESSION['conexion'][1];
+$pass = $_SESSION['conexion'][2];
+$conexion = new BD($host, $user, $pass, $bd);
+$consulta = "SHOW TABLES";
+$tablas = $conexion->consulta($consulta);
 
-    while (($nomTabla = $tablas->fetchColumn(0)) !== false) {
-        $inputs .= "<input type='submit' name='tabla' value='$nomTabla'>";
-    }
+while (($nomTabla = $tablas->fetchColumn(0)) !== false) {
+    $inputs .= "<input type='submit' name='tabla' value='$nomTabla'>";
 }
 ?>
 <!DOCTYPE html>
@@ -36,7 +36,7 @@ if (isset($_POST['submit'])) {
         <fieldset id="sup" style="width:40%">
             <legend>Listado bases de datos</legend>
             <form action="index.php" method='POST'>
-                <input type="submit" value="Volver" name="submit">
+                <input type="submit" value="Volver" name="volver">
             </form>
         </fieldset>
         <fieldset style="width:70%">
