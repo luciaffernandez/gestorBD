@@ -18,11 +18,15 @@ if (isset($_POST['enviar'])) {
     $nomTabla = $_POST['tabla'];
     switch ($_POST['enviar']) {
         case 'Guardar':
-            $valorNuevo = $_POST['valorNuevo'];
-            $valorAnt = $_POST['valorAnt'];
-            $campos = $_POST['campos'];
-            $sentencia = generaSentenciaUpdate($nomTabla, $campos, $valorAnt, $valorNuevo);
-            $conexion->ejecutar($sentencia);
+            if (isset($_GET['insert'])) {
+                
+            } else {
+                $valorNuevo = $_POST['valorNuevo'];
+                $valorAnt = $_POST['valorAnt'];
+                $campos = $_POST['campos'];
+                $sentencia = generaSentenciaUpdate($nomTabla, $campos, $valorAnt, $valorNuevo);
+                $conexion->ejecutar($sentencia);
+            }
             header("Location:gestorTablas.php?nomTabla=$nomTabla");
             break;
         case 'Cancelar':
@@ -43,6 +47,7 @@ function generaSentenciaUpdate($nomTabla, $campos, $valorAnt, $valorNuevo) {
     $sentencia = "UPDATE $nomTabla SET $set WHERE $where";
     return $sentencia;
 }
+
 ?>
 <html>
     <head>
@@ -56,9 +61,13 @@ function generaSentenciaUpdate($nomTabla, $campos, $valorAnt, $valorNuevo) {
             <form action="formulario.php" method="post">
                 <?php
                 foreach ($campos as $titulo => $campo) {
-                    echo "<label>$titulo</label>" .
-                    "<input type = 'text' name = 'valorNuevo[]' value = '$campo'/><br />" .
-                    "<input type = 'hidden' name = 'campos[$titulo]' value = '$campo'/><br />" .
+                    echo "<label>$titulo</label>";
+                    if (isset($_GET['insert']))
+                        echo "<input type = 'text' name = 'valorNuevo[]' value = ''/><br />";
+                    else
+                        echo "<input type = 'text' name = 'valorNuevo[]' value = '$campo'/><br />";
+
+                    echo "<input type = 'hidden' name = 'campos[$titulo]' value = '$campo'/><br />" .
                     "<input type = 'hidden' name = 'valorAnt[]' value= '$campo' />";
                 }
                 ?>

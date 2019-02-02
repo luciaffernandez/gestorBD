@@ -19,23 +19,24 @@ else
 
 $submit = $_POST['accion'];
 if (isset($submit)) {
+    $campos = serialize($_POST['campos']);
+    $nomTabla = $_POST['tabla'];
     switch ($submit) {
         case "Borrar":
             $campos = $_POST['campos'];
-            $nomTabla = $_POST['tabla'];
             borrar($conexion, $nomTabla, $campos);
             break;
         case "Editar":
-            $campos = serialize($_POST['campos']);
-            $nomTabla = $_POST['tabla'];
-            header("Location:formulario.php?campos=$campos&tabla=$nomTabla");
-            break;
+            echo "Location:formulario.php?campos=$campos&tabla=$nomTabla";
+            //header("Location:formulario.php?campos=$campos&tabla=$nomTabla");
+            exit();
         case "Añadir":
-            header("Location:formulario.php");
-            break;
+            $insert;
+            header("Location:formulario.php?campos=$campos&tabla=$nomTabla&añadir=$insert");
+            exit();
         case "Cerrar":
             header("Location:tablas.php");
-            break;
+            exit();
     }
 }
 
