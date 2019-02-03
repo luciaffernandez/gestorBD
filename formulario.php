@@ -12,14 +12,20 @@ $bd = $_SESSION['conexion'][3];
 $conexion = new BD($host, $user, $pass, $bd);
 
 $nomTabla = $_GET['tabla'];
-$campos = unserialize($_GET['campos']);
+$campos = $_SESSION['campos'];
+$campos = unserialize($campos);
+$boton = $_GET['añadir'];
+
 
 if (isset($_POST['enviar'])) {
     $nomTabla = $_POST['tabla'];
     switch ($_POST['enviar']) {
         case 'Guardar':
-            if (isset($_GET['insert'])) {
-                
+            if ($boton == "añadir") {
+                $valorNuevo = $_POST['valorNuevo'];
+                $campos = $_POST['campos'];
+                $sentencia = generaInsert($nombreTabla, $campos, $valorNuevo);
+                $conexion->ejecutar($sentencia);
             } else {
                 $valorNuevo = $_POST['valorNuevo'];
                 $valorAnt = $_POST['valorAnt'];
@@ -48,6 +54,34 @@ function generaSentenciaUpdate($nomTabla, $campos, $valorAnt, $valorNuevo) {
     return $sentencia;
 }
 
+function generaInsert($nombreTabla, $campos, $valorNuevo) {
+    $cols = "";
+    $indice = 0;
+    $values = "VALUES(";
+    $sentencia = "INSERT INTO $nombreTabla(";
+    foreach ($campos as $titulo => $campo) {
+        $columns .= "$titulo, ";
+        $values .= "'$valorNuevo[$indice]', ";
+        $indice++;
+    }
+    $columns = substr($columns, 0, strlen($columns) - 2) . ")";
+    $values = substr($values, 0, strlen($values) - 2) . ")";
+    $sentencia .= "$columns $values";
+    return $sentencia;
+}
+
+function obtenerFormulario($campos, $boton) {
+    foreach ($campos as $titulo => $campo) {
+        echo "<label>$titulo</label>";
+        if ($boton == "añadir") {
+            echo "<input type = 'text' name = 'valorNuevo[]' value = ''/><br />";
+        } else {
+            echo "<input type = 'text' name = 'valorNuevo[]' value = '$campo'/><br />";
+        }
+        echo "<input type = 'hidden' name = 'campos[$titulo]' value = '$campo'/><br />" .
+                "<input type = 'hidden' name = 'valorAnt[]' value= '$campo' />";
+    }
+}
 ?>
 <html>
     <head>
@@ -60,16 +94,7 @@ function generaSentenciaUpdate($nomTabla, $campos, $valorAnt, $valorNuevo) {
             <legend>Editanto Registro de la tabla <?php echo $nomTabla; ?> </legend>
             <form action="formulario.php" method="post">
                 <?php
-                foreach ($campos as $titulo => $campo) {
-                    echo "<label>$titulo</label>";
-                    if (isset($_GET['insert']))
-                        echo "<input type = 'text' name = 'valorNuevo[]' value = ''/><br />";
-                    else
-                        echo "<input type = 'text' name = 'valorNuevo[]' value = '$campo'/><br />";
-
-                    echo "<input type = 'hidden' name = 'campos[$titulo]' value = '$campo'/><br />" .
-                    "<input type = 'hidden' name = 'valorAnt[]' value= '$campo' />";
-                }
+                obtenerFormulario($campos, $boton);
                 ?>
                 <input type="hidden" value='<?php echo $nomTabla; ?>' name="tabla">
                 <input type="submit" value="Guardar" name='enviar'>

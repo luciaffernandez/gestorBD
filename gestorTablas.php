@@ -27,12 +27,15 @@ if (isset($submit)) {
             borrar($conexion, $nomTabla, $campos);
             break;
         case "Editar":
-            echo "Location:formulario.php?campos=$campos&tabla=$nomTabla";
-            //header("Location:formulario.php?campos=$campos&tabla=$nomTabla");
+            $campos = serialize($campos);
+            $_SESSION['campos'] = $campos;
+            header("Location:formulario.php?tabla=$nomTabla");
             exit();
         case "Añadir":
-            $insert;
-            header("Location:formulario.php?campos=$campos&tabla=$nomTabla&añadir=$insert");
+            $insert = "añadir";
+            $campos = serialize($campos);
+            $_SESSION['campos'] = $campos;
+            header("Location:formulario.php?tabla=$nomTabla&añadir=$insert");
             exit();
         case "Cerrar":
             header("Location:tablas.php");
