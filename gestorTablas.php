@@ -19,11 +19,10 @@ else
 
 $submit = $_POST['accion'];
 if (isset($submit)) {
-    $campos = serialize($_POST['campos']);
+    $campos = $_POST['campos'];
     $nomTabla = $_POST['tabla'];
     switch ($submit) {
         case "Borrar":
-            $campos = $_POST['campos'];
             borrar($conexion, $nomTabla, $campos);
             break;
         case "Editar":
