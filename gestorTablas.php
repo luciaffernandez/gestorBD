@@ -31,10 +31,10 @@ if (isset($submit)) {
             header("Location:formulario.php?tabla=$nomTabla");
             exit();
         case "Añadir":
-            $insert = "añadir";
+            $add = "add";
             $campos = serialize($campos);
             $_SESSION['campos'] = $campos;
-            header("Location:formulario.php?tabla=$nomTabla&añadir=$insert");
+            header("Location:formulario.php?tabla=$nomTabla&add=$add");
             exit();
         case "Cerrar":
             header("Location:tablas.php");
@@ -68,10 +68,10 @@ function generoTabla($conexion, $nomTabla): string {
                 . "<form action='gestorTablas.php'  method='post'>"
                 . "<input type='hidden' value='$nomTabla' name='tabla'>";
         foreach ($fila as $titulo => $dato) {
-            $tabla .= "<td>$dato</td>"
-                    . "<input type='hidden' name='campos[$titulo]' value='$dato'>";
+            $tabla .= "<td>$dato</td>\n"
+                    . "<input type='hidden' name='campos[$titulo]' value='$dato'>\n";
         }
-        $tabla .= "<td>"
+        $tabla .= "<td>\n"
                 . "<input type = 'submit' value = 'Editar' name = 'accion'>"
                 . "</td>"
                 . "<td>"
@@ -94,8 +94,8 @@ function generoTabla($conexion, $nomTabla): string {
     <body>
         <fieldset style="width:70%">
             <legend>Admnistración de la tabla  <?php echo $nomTabla; ?></legend>
-            <?php echo generoTabla($conexion, $nomTabla); ?>
             <form action='gestorTablas.php' method='post'>
+                <?php echo generoTabla($conexion, $nomTabla); ?>
                 <input type="submit" value="Añadir" name="accion">
                 <input type="submit" value="Cerrar" name="accion">
                 <input type="hidden" value='<?php echo $nomTabla; ?>' name="tabla">

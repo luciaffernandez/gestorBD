@@ -40,7 +40,7 @@ if (isset($_POST['submit'])) {
             <legend>Datos de conexiÃ³n</legend>
             <form action="index.php" method="POST">
                 <label>Host</label>
-                <input type="text" name="host" value="localhost">
+                <input type="text" name="host" value="172.17.0.2">
                 <label>Usuario</label>
                 <input type="text" name="usuario" value="root">
                 <label>Password</label>
