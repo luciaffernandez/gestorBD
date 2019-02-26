@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 spl_autoload_register(function($nombre_clase) {
     include $nombre_clase . '.php';
 });
@@ -26,11 +27,9 @@ while (($nomTabla = $tablas->fetchColumn(0)) !== false) {
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
         <title>Ejemplo de estilos CSS en un archivo externo</title>
         <link rel="stylesheet" type="text/css" href="estilos.css" media="screen" />
         <meta charset="UTF-8">
-        <title></title>
     </head>
     <body>
         <fieldset id="sup" style="width:40%">

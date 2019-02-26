@@ -101,7 +101,7 @@ class BD {
             $stmt = $this->conexion->prepare($sentencia);
             $stmt->execute();
         } catch (Exception $ex) {
-            $this->msj = "Error " . $ex->getMessage() . "<br/><hr /> Sentencia erronea.";
+            $this->info = "Error " . $ex->getMessage() . "<br/><hr /> Sentencia erronea.";
         }
     }
 

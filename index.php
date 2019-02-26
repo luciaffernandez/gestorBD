@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 spl_autoload_register(function($nombre_clase) {
     include $nombre_clase . '.php';
 });
@@ -35,12 +36,12 @@ if (isset($_POST['submit'])) {
         <meta charset="UTF-8">
     </head>
     <body>
-        <div id = error><?php echo $error; ?></div>
+        <div id ="error"><?php echo $error; ?></div>
         <fieldset style="width:70%; margin-top: -300px;">
-            <legend>Datos de conexiÃ³n</legend>
+            <legend>Datos de conexión</legend>
             <form action="index.php" method="POST">
                 <label>Host</label>
-                <input type="text" name="host" value="172.17.0.2">
+                <input type="text" name="host" value="localhost">
                 <label>Usuario</label>
                 <input type="text" name="usuario" value="root">
                 <label>Password</label>

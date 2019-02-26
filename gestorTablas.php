@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 spl_autoload_register(function($nombre_clase) {
     include $nombre_clase . '.php';
 });
@@ -10,6 +11,12 @@ $user = $_SESSION['conexion'][1];
 $pass = $_SESSION['conexion'][2];
 $bd = $_SESSION['conexion'][3];
 $conexion = new BD($host, $user, $pass, $bd);
+
+if (isset($_GET['error'])) {
+    $error = $_GET['error'];
+} else {
+    $error = "";
+}
 
 if (isset($_POST['tabla']))
     $nomTabla = $_POST['tabla'];
@@ -24,6 +31,7 @@ if (isset($submit)) {
     switch ($submit) {
         case "Borrar":
             borrar($conexion, $nomTabla, $campos);
+            $error = $conexion->getInfo();
             break;
         case "Editar":
             $campos = serialize($campos);
@@ -92,6 +100,7 @@ function generoTabla($conexion, $nomTabla): string {
         <link rel="stylesheet" type="text/css" href="estilos.css" media="screen" />
     </head>
     <body>
+        <div id ="error"><?php echo $error; ?></div>
         <fieldset style="width:70%">
             <legend>Admnistración de la tabla  <?php echo $nomTabla; ?></legend>
             <form action='gestorTablas.php' method='post'>

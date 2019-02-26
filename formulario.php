@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 spl_autoload_register(function($nombre_clase) {
     include $nombre_clase . '.php';
 });
@@ -31,14 +32,15 @@ if (isset($_POST['enviar'])) {
             $campos = $_POST['campos'];
             $sentencia = generaSentenciaUpdate($nomTabla, $campos, $valorAnt, $valorNuevo);
             $conexion->ejecutar($sentencia);
-            header("Location:gestorTablas.php?nomTabla=$nomTabla");
+            $error = $conexion->getInfo();
+            header("Location:gestorTablas.php?nomTabla=$nomTabla&error=$error");
             break;
         case 'Insertar':
             $valorNuevo = $_POST['valorNuevo'];
             $campos = $_POST['campos'];
             $sentencia = generaInsert($nomTabla, $campos, $valorNuevo);
             $conexion->ejecutar($sentencia);
-            header("Location:gestorTablas.php?nomTabla=$nomTabla");
+            header("Location:gestorTablas.php?nomTabla=$nomTabla&error=$error");
             break;
         case 'Cancelar':
             header("Location:gestorTablas.php?nomTabla=$nomTabla");
