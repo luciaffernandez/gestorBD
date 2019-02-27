@@ -32,6 +32,7 @@ if (isset($submit)) {
         case "Borrar":
             borrar($conexion, $nomTabla, $campos);
             $error = $conexion->getInfo();
+            var_dump($conexion);
             break;
         case "Editar":
             $campos = serialize($campos);

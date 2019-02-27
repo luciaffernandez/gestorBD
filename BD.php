@@ -14,7 +14,7 @@ class BD {
      * @param type $pass
      * @param type $bd
      */
-    public function __construct($host = "localhost", $user = "root", $pass = "root", $bd = null) {
+    public function __construct($host = "172.17.0.2", $user = "root", $pass = "root", $bd = null) {
         $this->user = $user;
         $this->pass = $pass;
         if ($bd === null) {
@@ -31,6 +31,8 @@ class BD {
     private function conectar() {
         try {
             $conexion = new PDO($this->dns, $this->user, $this->pass);
+            $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
         } catch (Exception $e) {
             $this->info = "Error conectando: " . $e->getMessage() . "<br/><strong>Prueba con el host 172.17.0.2 el usuario root y la contraseña root</strong>";
         }
@@ -100,7 +102,7 @@ class BD {
         try {
             $stmt = $this->conexion->prepare($sentencia);
             $stmt->execute();
-        } catch (Exception $ex) {
+        } catch (PDOException $ex) {
             $this->info = "Error " . $ex->getMessage() . "<br/><hr /> Sentencia erronea.";
         }
     }
